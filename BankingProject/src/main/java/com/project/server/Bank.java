@@ -95,7 +95,6 @@ public class Bank {
         int temp_amount2;
         
         if (!Consistency.check(account_num, dbId)) {
-            System.out.println("sent");
             Consistency.doConsistence(account_num, dbId);
             temp_amount1 = (-1) * amount;
         } else {

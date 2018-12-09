@@ -87,7 +87,7 @@ public class Query {
     }
 
     public Account selectByAccNum(String acc_num) throws SQLException {
-        Account account = new Account();
+        Account account = null;
         Connection connection = connectDB.getConnection();
         Select sql = d.new Select()
                 .from("account")

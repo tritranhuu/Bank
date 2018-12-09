@@ -260,16 +260,25 @@ public class ServerWorker extends Thread {
 //                        pw3.println("Your account is about to be deleted. Are you sure? (Press y to accept)");
 //                        InputStream inputStream4 = clientSocket.getInputStream();
 //                        BufferedReader reader4 = new BufferedReader(new InputStreamReader(inputStream4));
-                        String line0 = is.readLine();
-                        if (line0.equals("y") || line0.equals("Y")) {
-                            handleDeleteAccount(tokens3);
-                          os.write("Acount deleted!!!");
+                        os.write("1");
+                        os.newLine();
+                        os.flush();
+                    	String line0 = is.readLine();
+                        if (line0.equals("yes")) {
+                           boolean t = handleDeleteAccount(tokens3);
+                          if(t) {
+                           os.write("Acount deleted!!!");
                       	  os.newLine();
-                      	  os.flush();
+                      	  os.flush();}
+                          else {
+                        	  os.write("Delete Failed! Data Error");
+                          	  os.newLine();
+                          	  os.flush();
+                          }
 //                            pw3.println("\n\n---Press anything to continue---");
 //                            reader3.readLine();
                         } else {
-                        	os.write("Delete Failed! Data Error");
+                        	os.write("Delete Failed! You canceled it");
                       	  os.newLine();
                       	  os.flush();
 //                            pw3.println("Delete Failed! Bring you back to menu");
@@ -277,6 +286,9 @@ public class ServerWorker extends Thread {
 //                            reader3.readLine();
                         }
                     } else {
+                    	os.write("0");
+                        os.newLine();
+                        os.flush();
                     	os.write("Delete Failed! Not valid username or password!");
                   	  os.newLine();
                   	  os.flush();
@@ -340,7 +352,7 @@ public class ServerWorker extends Thread {
                                         break;
                                     }
                                 }
-                            	if(!isNumeric(strings.get(0))) {
+                            	if(!isNumeric(strings.get(0)) || Integer.parseInt(strings.get(0)) < 0) {
                                 	os.write("Invalid input!!! You can only input a possitive number!!!");
                                     os.newLine();
                                     os.flush();
@@ -386,7 +398,7 @@ public class ServerWorker extends Thread {
                                         break;
                                     }
                                 }
-                            	if(!isNumeric(strings.get(0))) {
+                            	if(!isNumeric(strings.get(0)) || Integer.parseInt(strings.get(0)) < 0) {
                                 	os.write("Invalid input!!! You can only input a possitive number!!!");
                                     os.newLine();
                                     os.flush();
@@ -447,7 +459,7 @@ public class ServerWorker extends Thread {
                             break;
                         case "4":
                             MessageQueue.addMQueue(identification);
-                            if (!identification.isReadOnly()) {
+                            if (!identification.isReadOnly() ) {
                             	while ((in = is.readLine()) != null) {
                                     System.out.println("token receive: " + in);
                                     strings.add(in);
@@ -457,7 +469,7 @@ public class ServerWorker extends Thread {
                                     }
                                 }
                                 int withdrawResult = query.selectByAccNum(acc_num).getBalance();
-                                if(!isNumeric(strings.get(1))) {
+                                if(!isNumeric(strings.get(1)) || Integer.parseInt(strings.get(1)) < 0) {
                                 	os.write("Invalid input!!! You can only input a possitive number!!!");
                                     os.newLine();
                                     os.flush();
@@ -551,7 +563,9 @@ public class ServerWorker extends Thread {
                 done = new Query(1).register(username, password);
                 done2 = new Query(2).register(username, password);
                 if (done && done2) {
-                	  os.write("Register successful!");
+                	  String acc_num = query.isInDB(tokens.get(0), tokens.get(1));
+                	  String a = "Success!! Your account number is: " + acc_num;
+                	  os.write(a);
                 	  os.newLine();
                 	  os.flush();
 //                    pw.println("Register successful!");
@@ -630,9 +644,7 @@ public class ServerWorker extends Thread {
                     done = new Query(1).delete(username);
                     done2 = new Query(2).delete(username);
                     if (done && done2) {
-                    	os.write("ok");
-                  	   os.newLine();
-                  	   os.flush();
+                
                         return true;
                     }
                 } catch (SQLException e) {
@@ -640,9 +652,7 @@ public class ServerWorker extends Thread {
                     throw e;
                 }
             } else {
-              os.write("");
-          	  os.newLine();
-          	  os.flush();
+            
                 return false;
             }
         }

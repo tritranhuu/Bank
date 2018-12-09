@@ -25,7 +25,7 @@ public class GUI {
 	
 	private static void prepareGUI(){
 		  mainFrame = new JFrame("Bank");
-	      mainFrame.setSize(300,300);
+	      mainFrame.setSize(300,500);
 	      mainFrame.setLayout(new GridLayout(0, 1));
 	      mainFrame.addWindowListener(new WindowAdapter() { 
 	         public void windowClosing(WindowEvent windowEvent){
@@ -39,7 +39,7 @@ public class GUI {
 	         }        
 	      });    
 	      headerLabel = new JLabel("", JLabel.CENTER);           
-	      headerLabel.setPreferredSize(new Dimension(100, 25));
+	      //headerLabel.setPreferredSize(new Dimension(100, 25));
 
 	      controlPanel = new JPanel();
 	      controlPanel.setLayout(new GridLayout(0, 1));
@@ -61,56 +61,9 @@ public class GUI {
 	public GUI() {
 	}
 
-	
-	
-//	private static void showMeu() throws IOException {
-//		String[] buttons = { "Deposit", "Withdraw", "Inquiry", "Transfer","Logout"};    
-//		int returnValue = JOptionPane.showOptionDialog(null, "Welcone", "Menu", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, buttons, buttons[0]);
-//		switch(returnValue) {
-//		case 0:
-//			os.write("1");
-//			break;
-//		case 1:
-//			os.write("2");
-//			break;
-//		case 2:
-//			os.write("3");
-//			break;
-//		case 3:
-//			os.write("4");
-//			break;
-//		case 4:
-//			os.write("5");
-//			break;
-//		}
-//		os.newLine();
-//		os.flush();
-//		String res = is.readLine();
-//		switch(res) {
-//		case "1":
-//			showDeposit();
-//			break;
-//		case "2":
-//			showWithdraw();
-//			break;
-//		case "3":
-//			showInquiry();
-//			break;
-//		case "4":
-//			showTransfer();
-//			break;
-//		case "5":
-//			showMain2();
-//			break;
-//		}
-//	}
 
 		
 	private static void showTransfer() throws IOException {
-//		os.write("4");
-//		os.newLine();
-//		os.flush();
-//		String re = is.readLine();
 		   JTextField num = new JTextField();
 		   JTextField amount = new JTextField();
 		   final JComponent[] inputs = new JComponent[] {
@@ -212,43 +165,6 @@ public class GUI {
 			   } 
 		
 	}
-
-//	public static void showMan() throws IOException {
-//		Object[] buttons = { "Register", "Login","Delete Account" };
-//		JLabel label = new JLabel("Welcomr to Internet Banking System");
-//		JPanel panel = new JPanel();
-//		panel.add(label);
-////		int result = JOptionPane.showOptionDialog(null, panel, "Internet Banking",
-////				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
-////				null, buttons, null);
-//		int result= JOptionPane.showOptionDialog(null, panel, "Internet Banking", JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, buttons, buttons[0]);
-//		if (result == 0){
-//			os.write("1");
-//		}
-//		else if (result == 1){
-//			os.write("2");
-//		}
-//		else if (result == 2){
-//			os.write("3");
-//		}
-//		os.newLine();
-//		os.flush();
-//		String res = is.readLine();
-//		switch(res) {
-//		case "1":
-//			showRegister();	
-//			break;
-//		case "2":
-//			showLogin();
-//			break;
-//		case "3":
-//			showDelete();
-//			break;
-//		default:
-//			break;
-//		}
-//	}
-
 	private static String[] showLogin() throws IOException{ 
 		
 		   JTextField username = new JTextField();
@@ -294,7 +210,7 @@ public class GUI {
 		           new JLabel("Password"),
 		           password
 		   };
-		   int result = JOptionPane.showConfirmDialog(null, inputs, "My custom dialog", JOptionPane.PLAIN_MESSAGE);
+		   int result = JOptionPane.showConfirmDialog(null, inputs, "Delete", JOptionPane.PLAIN_MESSAGE);
 		   String[] inp = new String[2];
 		   if (result == JOptionPane.OK_OPTION) {
 			   os.write("3");
@@ -309,12 +225,32 @@ public class GUI {
 		       os.newLine();
 		       os.flush();
 		       String res = is.readLine();
-		       if(res.equals("Acount deleted!!!")) {
-		    	   JOptionPane.showMessageDialog(null, res, "Success", JOptionPane.INFORMATION_MESSAGE);
+		       if(res.equals("1")) {
+		    	   int dialogButton = JOptionPane.YES_NO_OPTION;
+		    	   int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure to delete " + inp[0], "Delete", dialogButton);
+		    	   if(dialogResult == JOptionPane.YES_OPTION) {
+		    		   os.write("yes");
+				       os.newLine();
+				       os.flush();
+				       res = is.readLine();
+		    	   if(res.equals("Acount deleted!!!")) {
+		    		   JOptionPane.showMessageDialog(null, res, "Success", JOptionPane.INFORMATION_MESSAGE);
 		    	   showMain2();
-		       }
+		    	   }
+		    	   else {
+		    		   JOptionPane.showMessageDialog(null, res, "Error", JOptionPane.ERROR_MESSAGE);
+		    	   }
+		    	   }
+		    	   else {
+		    		   os.write("n");
+				       os.newLine();
+				       os.flush();
+				       res = is.readLine();
+			    	   JOptionPane.showMessageDialog(null, res, "Error", JOptionPane.ERROR_MESSAGE);
+		    	   }}
 		       else {
-		    	   JOptionPane.showMessageDialog(null, res, "Error", JOptionPane.ERROR_MESSAGE);
+		    	   res = is.readLine();
+		    	   JOptionPane.showMessageDialog(null, res, "Error", JOptionPane.ERROR_MESSAGE);	   
 		       }
 		   } 
 	}
@@ -342,7 +278,7 @@ public class GUI {
 		       os.newLine();
 		       os.flush();
 		       String res = is.readLine();
-		       if(res.equals("Register successful!")) {
+		       if(res.contains("Success!!")) {
 		    	   JOptionPane.showMessageDialog(null, res, "Success", JOptionPane.INFORMATION_MESSAGE);
 		    	   showMain2();
 		       }
@@ -478,8 +414,6 @@ public class GUI {
 	      controlPanel.add(logout); 
 	      mainFrame.setVisible(true);  
 	   }
-	
-	
 	
 }		  
 
