@@ -375,13 +375,22 @@ public class ServerWorker extends Thread {
 //                            outputStream.write(mString.getBytes());
                                 }
                             } else {
+                            	while ((in = is.readLine()) != null) {
+                                    System.out.println("token receive: " + in);
+                                    strings.add(in);
+                                    System.out.println("tokens size: " + in);
+                                    if (strings.size() == 1) {
+                                        break;
+                                    }
+                                }
+                            	os.write("Someone is using this account for transaction, please wait");
+                                os.newLine();
+                                os.flush();
                                 MessageQueue.removeQueue(identification);
                                 identification.setReadOnly(false);
 //                                pw.println("da co nguoi dang nhap truoc ban, vui long cho");
 //                                reader.readLine();
-                                os.write("Someone is using this account for transaction, please wait");
-                                os.newLine();
-                                os.flush();
+                                
                             }
                             break;
                         case "2":
@@ -428,13 +437,22 @@ public class ServerWorker extends Thread {
 //                                pw.println("\n\n---Press anything to continue---");
 //                                reader.readLine();
                             } else {
+                            	while ((in = is.readLine()) != null) {
+                                    System.out.println("token receive: " + in);
+                                    strings.add(in);
+                                    System.out.println("tokens size: " + in);
+                                    if (strings.size() == 1) {
+                                        break;
+                                    }
+                                }
+                            	os.write("Someone is using this account for transaction, please wait");
+                                os.newLine();
+                                os.flush();
                                 MessageQueue.removeQueue(identification);
                                 identification.setReadOnly(false);
 //                                pw.println("da co nguoi dang nhap truoc ban, vui long cho");
 //                                reader.readLine();
-                                os.write("Someone is using this account for transaction, please wait.");
-                                os.newLine();
-                                os.flush();
+                             
                             }
                             break;
                         case "3":
@@ -490,6 +508,7 @@ public class ServerWorker extends Thread {
                                 	withdrawResult = bank.transfer(acc_num, strings.get(0), Integer.parseInt(strings.get(1)));
                                 }
                                 if(withdrawResult < 0) {
+                                	
                                 	os.write("Account Number is invalid!!");
                                     os.newLine();
                                     os.flush();
@@ -507,13 +526,22 @@ public class ServerWorker extends Thread {
 //                                pw.println("\n\n---Press anything to continue---");
 //                                reader.readLine();
                             } else {
+                            	while ((in = is.readLine()) != null) {
+                                    System.out.println("token receive: " + in);
+                                    strings.add(in);
+                                    System.out.println("tokens size: " + in);
+                                    if (strings.size() == 1) {
+                                        break;
+                                    }
+                                }
+                            	os.write("Someone is using this account for transaction, please wait");
+                                os.newLine();
+                                os.flush();
                                 MessageQueue.removeQueue(identification);
                                 identification.setReadOnly(false);
 //                                pw.println("da co nguoi dang nhap truoc ban, vui long cho");
 //                                reader.readLine();
-                                os.write("Someone is using this account for transaction, please wait.");
-                                os.newLine();
-                                os.flush();
+                         
                             }
                             break;
                         case "5":
@@ -540,6 +568,7 @@ public class ServerWorker extends Thread {
                 }
             } else {
                 String msg = "Login failed! Not valid username or password!";
+                
                 os.write(msg);
                 os.newLine();
                 os.flush();
