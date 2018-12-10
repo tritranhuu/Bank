@@ -21,11 +21,13 @@ public class GUI {
 	private static JFrame mainFrame;
 	private static JLabel headerLabel;
 	private static JPanel controlPanel;
+	private static JPanel controlPanel2;
+	private static String usrname;
 	//private JOptionPane menu;
 	
 	private static void prepareGUI(){
 		  mainFrame = new JFrame("Bank");
-	      mainFrame.setSize(300,500);
+	      mainFrame.setSize(350,500);
 	      mainFrame.setLayout(new GridLayout(0, 1));
 	      mainFrame.addWindowListener(new WindowAdapter() { 
 	         public void windowClosing(WindowEvent windowEvent){
@@ -40,13 +42,18 @@ public class GUI {
 	      });    
 	      headerLabel = new JLabel("", JLabel.CENTER);           
 	      //headerLabel.setPreferredSize(new Dimension(100, 25));
-
+	      
 	      controlPanel = new JPanel();
 	      controlPanel.setLayout(new GridLayout(0, 1));
 	      controlPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+	      controlPanel2 = new JPanel();
+	      controlPanel2.setLayout(new GridLayout(0, 1));
+	      controlPanel2.setBorder(new EmptyBorder(10, 10, 10, 10));
 	      mainFrame.setBackground(Color.BLACK);
-	      mainFrame.add(headerLabel);
+	      //mainFrame.add(headerLabel);
+	      mainFrame.add(controlPanel2);
 	      mainFrame.add(controlPanel);
+	      mainFrame.setLocationRelativeTo(null);
 	      mainFrame.setVisible(true);  
 	   }
 	
@@ -175,7 +182,7 @@ public class GUI {
 		           new JLabel("Password"),
 		           password
 		   };
-		   int result = JOptionPane.showConfirmDialog(null, inputs, "My custom dialog", JOptionPane.PLAIN_MESSAGE);
+		   int result = JOptionPane.showConfirmDialog(null, inputs, "Login", JOptionPane.PLAIN_MESSAGE);
 		   String[] inp = new String[2];
 		   if (result == JOptionPane.OK_OPTION) {
 			   os.write("2");
@@ -192,6 +199,7 @@ public class GUI {
 		       String res = is.readLine();
 		       if(res.equals("Login successfully!")) {
 		    	   JOptionPane.showMessageDialog(null, res, "Success", JOptionPane.INFORMATION_MESSAGE);
+		    	   usrname = inp[0];
 		    	   showMenu2();
 		       }
 		       else {
@@ -297,8 +305,16 @@ public class GUI {
 	
 	public static void showMain2() {
 		controlPanel.removeAll();
+		controlPanel2.removeAll();
+		JLabel log = new JLabel("Press Login to continue",JLabel.CENTER);
+		JLabel reg = new JLabel("If you do not have an acount press Register",JLabel.CENTER);
+		JLabel del = new JLabel("If you want to delete an acount press Delete Account",JLabel.CENTER);
 		headerLabel.setText("Welcome");
-	    JButton register = new JButton("Register");        
+		controlPanel2.add(headerLabel);
+		controlPanel2.add(log);
+		controlPanel2.add(reg);
+		controlPanel2.add(del);
+		JButton register = new JButton("Register");        
 	    JButton login = new JButton("Login");
 	    JButton delete = new JButton("Delete Account");
 	    register.addActionListener(new ActionListener() {
@@ -341,7 +357,13 @@ public class GUI {
 	private static void showMenu2(){                                       
 	      
 		  controlPanel.removeAll();
+		  controlPanel2.removeAll();
 	      headerLabel.setText("Internet Banking Services"); 
+	      JLabel hi = new JLabel("Hello " +usrname, JLabel.CENTER);
+	      JLabel ask = new JLabel("What do you want to do?", JLabel.CENTER);
+	      controlPanel2.add(headerLabel);
+	      controlPanel2.add(hi);
+	      controlPanel2.add(ask);
 	      JButton deposit = new JButton("Deposit");        
 	      JButton withdraw = new JButton("Withdraw");
 	      JButton inquiry = new JButton("Inquiry");
